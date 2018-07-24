@@ -52,7 +52,7 @@ class Todo extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container text-center">
         <h1>TODO List</h1>
         <FilterForm findItems={this.findItems} />
         <List
