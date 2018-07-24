@@ -29,18 +29,20 @@ class Todo extends Component {
 
   findItems = filter => {
     const items = this.state.items;
-    items
-      .filter(item => !new RegExp(filter).test(item.value))
-      .forEach(item => (item.visible = false));
+    if (filter.length === 0) {
+      items.forEach(item => (item.visible = true));
+    } else {
+      items
+        .filter(item => !new RegExp(filter).test(item.value))
+        .forEach(item => (item.visible = false));
+    }
     this.setState({ items });
   };
 
   render() {
     return (
       <div>
-        <div>
-          <input type="text" />
-        </div>
+        <FilterForm findItems={this.findItems} />
         {this.state.items.filter(item => item.visible === true).map(item => (
           <div key={item.id}>
             <input type="checkbox" />
@@ -48,6 +50,30 @@ class Todo extends Component {
           </div>
         ))}
         <AddItemForm addItem={this.addItem} />
+      </div>
+    );
+  }
+}
+
+class FilterForm extends Component {
+  constructor(props) {
+    super(props);
+    this.filter = null;
+  }
+
+  filterItem = () => {
+    this.props.findItems(this.filter.value);
+  };
+
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          ref={node => (this.filter = node)}
+          placeholder="Input To Filter Items"
+          onChange={this.filterItem}
+        />
       </div>
     );
   }
@@ -75,10 +101,9 @@ class AddItemForm extends Component {
     return (
       <div>
         <input
-          ref={node => {
-            this.input = node;
-          }}
+          ref={node => (this.input = node)}
           type="text"
+          placeholder="Input To Add a Item"
         />
         <button onClick={this.addItem}>ADD</button>
       </div>
