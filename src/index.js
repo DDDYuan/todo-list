@@ -2,5 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import registerServiceWorker from "./registerServiceWorker";
 
-ReactDOM.render("", document.getElementById("root"));
+import Todo from "./Todo";
+
+ReactDOM.render(<Todo />, document.getElementById("root"));
 registerServiceWorker();
