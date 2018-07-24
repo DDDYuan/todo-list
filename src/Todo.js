@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 
 class Todo extends Component {
   constructor(props) {
@@ -17,13 +16,13 @@ class Todo extends Component {
 
   removeItem = id => {
     const items = this.state.items;
-    _.remove(items, item => item.id === id);
+    items.splice(items.findIndex(item => item.id === id), 1);
     this.setState({ items });
   };
 
   changeItemValue = (id, value) => {
     const items = this.state.items;
-    _.find(items, item => item.id === id).value = value;
+    items.find(item => item.id === id).value = value;
     this.setState({ items });
   };
 
