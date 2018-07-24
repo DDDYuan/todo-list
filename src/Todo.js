@@ -16,39 +16,36 @@ class Todo extends Component {
 
   removeItem = id => {
     const items = this.state.items;
-    items.splice(items.findIndex(item => item.id == id), 1);
+    items.splice(items.findIndex(item => item.id === id), 1);
     this.setState({ items });
   };
 
   changeItemValue = (id, value) => {
     const items = this.state.items;
-    const item = items.find(item => item.id == id);
+    const item = items.find(item => item.id === id);
     item.value = value;
     this.setState({ items });
   };
 
   findItems = filter => {
     const items = this.state.items;
-    if (filter.length === 0) {
-      items.forEach(item => (item.visible = true));
-    } else {
-      items
-        .filter(item => !new RegExp(filter).test(item.value))
-        .forEach(item => (item.visible = false));
-    }
+    items.forEach(item => (item.visible = true));
+    items
+      .filter(item => !new RegExp(filter).test(item.value))
+      .forEach(item => (item.visible = false));
     this.setState({ items });
   };
 
   changeItemEditableStatus = id => {
     const items = this.state.items;
-    const item = items.find(item => item.id == id);
+    const item = items.find(item => item.id === id);
     item.readonly = !item.readonly;
     this.setState({ items });
   };
 
   changeCheckStatus = id => {
     const items = this.state.items;
-    const item = items.find(item => item.id == id);
+    const item = items.find(item => item.id === id);
     item.checked = !item.checked;
     this.setState({ items });
   };
@@ -56,6 +53,7 @@ class Todo extends Component {
   render() {
     return (
       <div>
+        <h1>TODO List</h1>
         <FilterForm findItems={this.findItems} />
         <List
           items={this.state.items}
@@ -71,29 +69,30 @@ class Todo extends Component {
 }
 
 class List extends Component {
-  onChangeEditableStatus = event => {
-    this.props.changeItemEditableStatus(
-      event.currentTarget.parentElement.getAttribute("item-id")
+  getItemId = event => {
+    return parseInt(
+      event.currentTarget.parentElement.getAttribute("item-id"),
+      10
     );
+  };
+
+  onChangeEditableStatus = event => {
+    this.props.changeItemEditableStatus(this.getItemId(event));
   };
 
   onChangeValue = event => {
     this.props.changeItemValue(
-      event.currentTarget.parentElement.getAttribute("item-id"),
+      this.getItemId(event),
       event.currentTarget.value
     );
   };
 
   onRemoveItem = event => {
-    this.props.removeItem(
-      event.currentTarget.parentElement.getAttribute("item-id")
-    );
+    this.props.removeItem(this.getItemId(event));
   };
 
   onCheckChange = event => {
-    this.props.changeCheckStatus(
-      event.currentTarget.parentElement.getAttribute("item-id")
-    );
+    this.props.changeCheckStatus(this.getItemId(event));
   };
 
   render() {
