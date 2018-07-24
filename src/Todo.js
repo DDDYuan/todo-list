@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { equal } from "assert";
 
 class Todo extends Component {
   constructor(props) {
