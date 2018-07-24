@@ -36,10 +36,10 @@ class Todo extends Component {
     this.setState({ items });
   };
 
-  changeItemEditableStatus = id => {
+  changeItemEditableStatus = (id, status) => {
     const items = this.state.items;
     const item = items.find(item => item.id === id);
-    item.readonly = !item.readonly;
+    item.readonly = status;
     this.setState({ items });
   };
 
@@ -76,8 +76,12 @@ class List extends Component {
     );
   };
 
-  onChangeEditableStatus = event => {
-    this.props.changeItemEditableStatus(this.getItemId(event));
+  onEdit = event => {
+    this.props.changeItemEditableStatus(this.getItemId(event), false);
+  };
+
+  onLeaveEdit = event => {
+    this.props.changeItemEditableStatus(this.getItemId(event), true);
   };
 
   onChangeValue = event => {
@@ -108,7 +112,8 @@ class List extends Component {
           value={item.value}
           readOnly={item.readonly}
           disabled={item.checked}
-          onDoubleClick={this.onChangeEditableStatus}
+          onBlur={this.onLeaveEdit}
+          onDoubleClick={this.onEdit}
           onChange={this.onChangeValue}
         />
         <button onClick={this.onRemoveItem}>×</button>
