@@ -115,6 +115,7 @@ class List extends Component {
           onBlur={this.onLeaveEdit}
           onDoubleClick={this.onEdit}
           onChange={this.onChangeValue}
+          style={item.checked ? { background: "grey" } : {}}
         />
         <button onClick={this.onRemoveItem}>×</button>
       </div>
